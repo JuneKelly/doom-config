@@ -135,20 +135,45 @@
   (add-to-list 'lsp-language-id-configuration '(heex-ts-mode . "phoenix-heex"))
   (add-to-list 'lsp-language-id-configuration '(heex-mode . "phoenix-heex"))
 
-  ;; LSP in heex mode
-  ;(add-hook 'heex-ts-mode-hook #'lsp!)
+  ;; Enable LSP in heex mode
+  (add-hook 'heex-ts-mode-hook #'lsp-deferred)
 
-  ;; Configure next-ls (brew install elixir-tools/tap/next-ls)
-  ; (lsp-register-client
-  ;  (make-lsp-client
-  ;   :new-connection (lsp-stdio-connection '("nextls" "--stdio"))
-  ;   :activation-fn (lsp-activate-on "elixir" "phoenix-heex")
-  ;   :multi-root t
-  ;   :server-id 'next-ls))
+  ;; Configure completion triggers for heex-ts-mode
+  (add-hook 'heex-ts-mode-hook
+            (lambda ()
+              ;; Ensure LSP completion is available
+              (setq-local completion-at-point-functions
+                          (list (cape-capf-super
+                                 #'lsp-completion-at-point
+                                 #'cape-dabbrev)))
+              ;; Make corfu auto-trigger on . and other chars
+              (setq-local corfu-auto-prefix 1)
+              (setq-local corfu-auto t)))
 
-  ;; Prefer next-ls for Elixir
-  ; (setq lsp-elixir-server-command '("nextls" "--stdio"))
-
-  ;; Optional: configure LSP for embedded regions
-  ;(setq lsp-elixir-suggest-specs nil) ; reduce noise
-  )
+  ;; Register elixir-ls to handle both elixir and phoenix-heex
+  (after! lsp-elixir
+    (lsp-register-client
+     (make-lsp-client
+      :new-connection (lsp-stdio-connection
+                       (lambda ()
+                         `(,(or (when (f-exists? lsp-elixir-local-server-command)
+                                  lsp-elixir-local-server-command)
+                                (or (executable-find
+                                     (cl-first lsp-elixir-server-command))
+                                    (lsp-package-path 'elixir-ls))
+                                "language_server.sh")
+                           ,@(cl-rest lsp-elixir-server-command))))
+      :activation-fn (lsp-activate-on "elixir" "phoenix-heex")
+      :priority 0
+      :server-id 'elixir-ls-heex
+      :action-handlers (ht ("elixir.lens.test.run" 'lsp-elixir--run-test))
+      :initialized-fn (lambda (workspace)
+                        (with-lsp-workspace workspace
+                          (lsp--set-configuration
+                           (lsp-configuration-section "elixirLS")))
+                        (lsp-put
+                         (lsp--workspace-server-capabilities workspace)
+                         :textDocumentSync
+                         (lsp-make-text-document-sync-options
+                          :save t
+                          :change 2)))))))
