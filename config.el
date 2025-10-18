@@ -85,6 +85,6 @@
 
 
 ;; -- eglot
-(after! eglot
-  (add-to-list 'eglot-server-programs
-               '(elixir-mode "/Users/junebug/bin/elixir_language_server.sh")))
+;; (after! eglot
+;;   (add-to-list 'eglot-server-programs
+;;                '(elixir-mode "~/bin/elixir_language_server.sh")))
