@@ -7,7 +7,7 @@ Yes, that.
 At least, some of them:
 
 ```
-brew install shellcheck direnv semgrep cmake
+brew install shellcheck direnv cmake
 
 brew tap d12frosted/emacs-plus
 
