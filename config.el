@@ -81,10 +81,74 @@
 ;; -- Window frame positioning
 (setq initial-frame-alist
       '((top . 50) (left . 50)
-        (width . 140) (height . 60)))
+        (width . 140) (height . 50)))
 
 
 ;; -- eglot
 ;; (after! eglot
 ;;   (add-to-list 'eglot-server-programs
 ;;                '(elixir-mode "~/bin/elixir_language_server.sh")))
+
+
+;; -- tree sitter
+(setq treesit-language-source-alist
+      '((elixir "https://github.com/elixir-lang/tree-sitter-elixir")
+        (heex "https://github.com/phoenixframework/tree-sitter-heex")))
+
+;; -- install treesitter grammars if not present
+(dolist (lang '(elixir heex))
+  (unless (treesit-language-available-p lang)
+    (treesit-install-language-grammar lang)))
+
+;; -- heex treesitter
+(use-package! heex-ts-mode
+  :mode "\\.heex\\'")
+
+;; -- polymode
+(use-package! polymode
+  :config
+  (define-hostmode poly-elixir-hostmode
+    :mode 'elixir-mode)
+
+  (define-innermode poly-heex-innermode
+    :mode 'heex-ts-mode
+    :head-matcher "~H\"\"\""
+    :tail-matcher "\"\"\""
+    :head-mode 'host
+    :tail-mode 'host
+    :fallback-mode 'host)
+
+  (define-polymode poly-elixir-mode
+    :hostmode 'poly-elixir-hostmode
+    :innermodes '(poly-heex-innermode))
+
+  ;; Keep LSP active across mode switches
+  (setq polymode-move-these-vars-from-old-buffer
+        (append polymode-move-these-vars-from-old-buffer
+                '(lsp--buffer-workspaces
+                  lsp--buffer-deferred)))
+
+  (add-hook 'elixir-mode-hook #'poly-elixir-mode))
+
+;; -- lsp
+(after! lsp-mode
+  (add-to-list 'lsp-language-id-configuration '(heex-ts-mode . "phoenix-heex"))
+  (add-to-list 'lsp-language-id-configuration '(heex-mode . "phoenix-heex"))
+
+  ;; LSP in heex mode
+  ;(add-hook 'heex-ts-mode-hook #'lsp!)
+
+  ;; Configure next-ls (brew install elixir-tools/tap/next-ls)
+  ; (lsp-register-client
+  ;  (make-lsp-client
+  ;   :new-connection (lsp-stdio-connection '("nextls" "--stdio"))
+  ;   :activation-fn (lsp-activate-on "elixir" "phoenix-heex")
+  ;   :multi-root t
+  ;   :server-id 'next-ls))
+
+  ;; Prefer next-ls for Elixir
+  ; (setq lsp-elixir-server-command '("nextls" "--stdio"))
+
+  ;; Optional: configure LSP for embedded regions
+  ;(setq lsp-elixir-suggest-specs nil) ; reduce noise
+  )

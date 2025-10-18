@@ -54,3 +54,5 @@
 ;; (unpin! t)
 
 (package! catppuccin-theme)
+(package! heex-ts-mode)
+(package! polymode)
