@@ -97,37 +97,8 @@
 ;;   (add-to-list 'eglot-server-programs
 ;;                '(elixir-mode "~/bin/elixir_language_server.sh")))
 
+;; -- lsp
+(after! lsp-mode
+  ;; Use local elixir-ls installation
+  (setq lsp-elixir-server-command '("~/bin/elixir-ls")))
 
-;; -- tree sitter
-(setq treesit-language-source-alist
-      '((elixir "https://github.com/elixir-lang/tree-sitter-elixir")
-        (heex "https://github.com/phoenixframework/tree-sitter-heex")))
-
-;; -- install treesitter grammars if not present
-(dolist (lang '(elixir heex))
-  (unless (treesit-language-available-p lang)
-    (treesit-install-language-grammar lang)))
-
-;; -- heex treesitter
-(use-package! heex-ts-mode
-  :mode "\\.heex\\'")
-
-;; -- polymode
-(use-package! polymode
-  :config
-  (define-hostmode poly-elixir-hostmode
-    :mode 'elixir-mode)
-
-  (define-innermode poly-heex-innermode
-    :mode 'heex-ts-mode
-    :head-matcher "~H\"\"\""
-    :tail-matcher "\"\"\""
-    :head-mode 'host
-    :tail-mode 'host
-    :fallback-mode 'host)
-
-  (define-polymode poly-elixir-mode
-    :hostmode 'poly-elixir-hostmode
-    :innermodes '(poly-heex-innermode))
-
-  (add-hook 'elixir-mode-hook #'poly-elixir-mode))
