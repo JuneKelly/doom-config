@@ -11,5 +11,12 @@ brew install shellcheck direnv cmake
 
 brew tap d12frosted/emacs-plus
 
-brew install emacs-plus@29
+# Edit to remove the with-native-comp build flag
+brew edit emacs-plus@30
+
+brew install emacs-plus@30 --with-c9rgreen-sonoma-icon
 ```
+
+Set up elixir-ls:
+- Get from [https://github.com/elixir-lsp/elixir-ls]
+- Symlink the executable to `~/bin/elixir-ls`
