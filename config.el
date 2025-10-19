@@ -21,7 +21,7 @@
 ;; accept. For example:
 ;;
 (setq doom-font (font-spec :family "Iosevka Term" :size 14 :weight 'semi-light)
-     doom-variable-pitch-font (font-spec :family "Helvetica" :size 14))
+      doom-variable-pitch-font (font-spec :family "Helvetica" :size 14))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -79,11 +79,11 @@
 ;; -- shells
 
 (setq shell-file-name (executable-find
-      "bash"))
+                       "bash"))
 (setq-default vterm-shell
-      "/opt/homebrew/bin//fish")
+              "/opt/homebrew/bin//fish")
 (setq-default explicit-shell-file-name
-      "/opt/homebrew/bin//fish")
+              "/opt/homebrew/bin//fish")
 
 
 ;; -- Window frame positioning
