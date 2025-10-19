@@ -91,14 +91,15 @@
       '((top . 50) (left . 50)
         (width . 140) (height . 50)))
 
-
-;; -- eglot
-;; (after! eglot
-;;   (add-to-list 'eglot-server-programs
-;;                '(elixir-mode "~/bin/elixir_language_server.sh")))
-
 ;; -- lsp
 (after! lsp-mode
   ;; Use local elixir-ls installation
   (setq lsp-elixir-server-command '("~/bin/elixir-ls")))
 
+;; -- eglot
+;; (after! eglot
+;;   (add-to-list 'eglot-server-programs
+;;                '(elixir-mode "~/bin/elixir-ls")))
+
+
+;; -----------------------------------------------------------------
