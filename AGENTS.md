@@ -7,3 +7,5 @@ The user of this configuration uses emacs to edit primarily [elixir](https://eli
 The user primarily uses MacOS.
 
 The user prefers stability, dependability, and maintainability over flashy features.
+
+While assisting the user, think hard about the problem first before exploring solutions. Search for documentation when necessary to enhance your understanding.
