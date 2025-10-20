@@ -94,7 +94,8 @@
 ;; -- lsp
 (after! lsp-mode
   ;; Use local elixir-ls installation
-  (setq lsp-elixir-server-command '("~/bin/elixir-ls")))
+  (setq lsp-elixir-server-command '("~/bin/elixir-ls"))
+  (setq lsp-elixir-suggest-specs nil))
 
 ;; -- eglot
 ;; (after! eglot
