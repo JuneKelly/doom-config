@@ -32,7 +32,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 
-(setq catppuccin-flavor 'macchiato) ;; Options: 'frappe, 'latte, 'macchiato, or 'mocha
+(setq catppuccin-flavor 'mocha) ;; Options: 'frappe, 'latte, 'macchiato, or 'mocha
 (setq doom-theme 'catppuccin)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
@@ -95,7 +95,7 @@
 (after! lsp-mode
   ;; Use local elixir-ls installation
   (setq lsp-elixir-server-command '("~/bin/elixir-ls"))
-  (setq lsp-elixir-suggest-specs nil))
+  )
 
 ;; -- eglot
 ;; (after! eglot
