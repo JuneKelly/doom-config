@@ -91,6 +91,10 @@
 (after! vterm
   (evil-set-initial-state 'vterm-mode 'emacs))
 
+(use-package! vterm
+  :config
+  (setq vterm-max-scrollback 100000))
+
 
 ;; -- Window frame positioning
 (setq initial-frame-alist
