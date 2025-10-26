@@ -76,14 +76,20 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; -- shells
+;; ----------------------- my config ------------------------------------------
 
+;; -- shells
 (setq shell-file-name (executable-find
                        "bash"))
 (setq-default vterm-shell
               "/opt/homebrew/bin//fish")
 (setq-default explicit-shell-file-name
               "/opt/homebrew/bin//fish")
+
+
+;; -- vterm
+(after! vterm
+  (evil-set-initial-state 'vterm-mode 'emacs))
 
 
 ;; -- Window frame positioning
