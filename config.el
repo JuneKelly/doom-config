@@ -120,17 +120,20 @@
   (setopt eat-very-visible-cursor-type '(t nil nil)))
 
 
-;; -- treemacs
-;; (after! treemacs
-;;   (treemacs-follow-mode t))
-;; (after! lsp-treemacs
-;;   (lsp-treemacs-sync-mode 1)
-;;   (add-hook 'lsp-treemacs-symbols-list-mode-hook #'lsp-treemacs-sync-mode))
+;; -- symbols outline
+(use-package! symbols-outline
+  :commands (symbols-outline-show)
+  :init
+  (map! :leader
+        :desc "Show symbols outline"
+        "c S" #'symbols-outline-show)
 
-
-
-
-
+  (add-hook 'lsp-mode-hook
+            (lambda ()
+              (setq-local symbols-outline-fetch-fn #'symbols-outline-lsp-fetch)))
+  :config
+  (setq symbols-outline-window-position 'left)
+  (symbols-outline-follow-mode))
 
 
 
