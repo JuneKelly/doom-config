@@ -121,11 +121,11 @@
 
 
 ;; -- treemacs
-(after! treemacs
-  (treemacs-follow-mode t))
-(after! lsp-treemacs
-  (lsp-treemacs-sync-mode 1)
-  (add-hook 'lsp-treemacs-symbols-list-mode-hook #'lsp-treemacs-sync-mode))
+;; (after! treemacs
+;;   (treemacs-follow-mode t))
+;; (after! lsp-treemacs
+;;   (lsp-treemacs-sync-mode 1)
+;;   (add-hook 'lsp-treemacs-symbols-list-mode-hook #'lsp-treemacs-sync-mode))
 
 
 
