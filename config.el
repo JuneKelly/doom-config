@@ -133,10 +133,19 @@
               (setq-local symbols-outline-fetch-fn #'symbols-outline-lsp-fetch)))
   :config
   (setq symbols-outline-window-position 'left)
-  (symbols-outline-follow-mode))
+  (symbols-outline-follow-mode)
 
-
-
+  ;; Evil-style keybindings for symbols-outline
+  (map! :map symbols-outline-mode-map
+        :n "RET" #'symbols-outline-visit
+        :n "j"   #'evil-next-line
+        :n "k"   #'evil-previous-line
+        :n "TAB" #'symbols-outline-toggle-node
+        :n "za"  #'symbols-outline-toggle-node
+        :n "zM"  #'symbols-outline-hide-all
+        :n "zR"  #'symbols-outline-show-all
+        :n "gr"  #'symbols-outline-refresh
+        :n "q"   #'quit-window))
 
 
 
