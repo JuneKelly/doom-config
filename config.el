@@ -107,11 +107,6 @@
   (setq lsp-elixir-server-command '("~/bin/elixir-ls"))
   (setq lsp-elixir-suggest-specs nil))
 
-;; -- eglot
-;; (after! eglot
-;;   (add-to-list 'eglot-server-programs
-;;                '(elixir-mode "~/bin/elixir-ls")))
-
 
 ;; -- eat
 (after! eat
