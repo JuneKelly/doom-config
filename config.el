@@ -116,8 +116,7 @@
 ;; -- eat
 (after! eat
   (evil-set-initial-state 'eat-mode 'emacs)
-                                        ;(setq eat-very-visible-cursor-type '(t nil nil))
-  (setopt eat-very-visible-cursor-type '(t nil nil)))
+  (setq eat-very-visible-cursor-type '(t nil nil)))
 
 
 ;; -- symbols outline
