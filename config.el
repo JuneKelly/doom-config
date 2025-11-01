@@ -98,7 +98,7 @@
 
 ;; -- Window frame positioning
 (setq initial-frame-alist
-      '((top . 50) (left . 50)
+      '((top . 50) (left . 200)
         (width . 140) (height . 50)))
 
 ;; -- lsp
