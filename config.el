@@ -143,4 +143,10 @@
 
 
 
+;; -- Scrolling behavior
+;; Keep extra lines of context when recentering with zt and so on
+(setq scroll-margin 3)  ; Number of lines to keep above/below cursor
+
+
+
 ;; -----------------------------------------------------------------
