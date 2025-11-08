@@ -9,3 +9,9 @@ The user primarily uses MacOS.
 The user prefers stability, dependability, and maintainability over flashy features.
 
 While assisting the user, think hard about the problem first before exploring solutions. Search for documentation when necessary to enhance your understanding. When faced with complex problems, make a plan before executing.
+
+## Key files
+
+- [init.el]: activation of doom modules
+- [config.el]: general configuration
+- [packages.el]: definition of extra packages not included in doom
