@@ -101,6 +101,7 @@
       '((top . 50) (left . 200)
         (width . 140) (height . 50)))
 
+
 ;; -- eglot
 (set-eglot-client! '(elixir-mode elixir-ts-mode heex-ts-mode)
                    `(,(expand-file-name "~/bin/elixir-ls")))
