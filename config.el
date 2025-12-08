@@ -101,11 +101,9 @@
       '((top . 50) (left . 200)
         (width . 140) (height . 50)))
 
-;; -- lsp
-(after! lsp-mode
-  ;; Use local elixir-ls installation
-  (setq lsp-elixir-server-command '("~/bin/elixir-ls"))
-  (setq lsp-elixir-suggest-specs nil))
+;; -- eglot
+(set-eglot-client! '(elixir-mode elixir-ts-mode heex-ts-mode)
+                   `(,(expand-file-name "~/bin/elixir-ls")))
 
 
 ;; -- eat
@@ -122,7 +120,7 @@
         :desc "Show symbols outline"
         "c S" #'symbols-outline-show)
 
-  (add-hook 'lsp-mode-hook
+  (add-hook 'eglot-managed-mode-hook
             (lambda ()
               (setq-local symbols-outline-fetch-fn #'symbols-outline-lsp-fetch)))
   :config
