@@ -105,7 +105,8 @@
 ;; -- eglot
 (set-eglot-client! '(elixir-mode elixir-ts-mode heex-ts-mode)
                    ;; `(,(expand-file-name "~/bin/elixir-ls")))
-                   `(,(expand-file-name "~/.local/bin/expert")))
+                   `(,(expand-file-name "~/.local/bin/expert") "--stdio")
+                   )
 
 
 ;; -- eat
