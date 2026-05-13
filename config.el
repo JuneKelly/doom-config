@@ -109,6 +109,94 @@
                    )
 
 
+;; -- HEEx: full elixir highlighting inside `{...}`, `<%= ... %>`, etc.
+;;
+;; Doom's `(elixir +tree-sitter)` already embeds heex inside `~H`/`~F` sigils,
+;; but elixir expressions inside heex (`{@var}`, `<%= ... %>`) stay unfontified
+;; because `heex-ts-mode` has no injection back into elixir. The blocks below
+;; add that injection for both `.ex` files (via `elixir-ts-mode`) and plain
+;; `.heex` files (via `heex-ts-mode`).
+
+(defvar +elixir-heex-injection-query
+  '((expression (expression_value) @cap)
+    (directive (expression_value) @cap)
+    (directive (partial_expression_value) @cap)
+    (directive (ending_expression_value) @cap))
+  "Tree-sitter query for heex nodes that contain embedded elixir code.")
+
+(after! elixir-ts-mode
+  (when (and (treesit-available-p)
+             (treesit-ready-p 'heex)
+             (treesit-ready-p 'elixir))
+    ;; Replace elixir-ts-mode's range rules to ALSO embed elixir back inside
+    ;; heex's expression nodes (in addition to the default heex-in-elixir).
+    ;; `:local t' is REQUIRED here: without it, treesit-update-ranges would
+    ;; clobber the primary elixir parser's ranges (see treesit.el:813-830),
+    ;; breaking highlighting in the rest of the buffer.
+    (setq elixir-ts--treesit-range-rules
+          (treesit-range-rules
+           :embed 'heex
+           :host 'elixir
+           '((sigil (sigil_name) @_name
+                    (:match "^[HF]$" @_name)
+                    (quoted_content) @heex))
+
+           :embed 'elixir
+           :host 'heex
+           :local t
+           +elixir-heex-injection-query))))
+
+(defun +heex-ts-inject-elixir-h ()
+  "Re-parse elixir code inside heex expression nodes for full highlighting."
+  (require 'elixir-ts-mode)
+  (when (and (treesit-ready-p 'elixir)
+             (treesit-ready-p 'heex))
+    (treesit-parser-create 'elixir)
+    (setq-local treesit-range-settings
+                (treesit-range-rules
+                 :embed 'elixir
+                 :host 'heex
+                 +elixir-heex-injection-query))
+    (setq-local treesit-font-lock-settings
+                (append treesit-font-lock-settings
+                        elixir-ts--font-lock-settings))
+    (setq-local treesit-font-lock-feature-list
+                '((heex-comment heex-keyword heex-doctype
+                   elixir-comment elixir-doc elixir-definition)
+                  (heex-component heex-tag heex-attribute heex-string
+                   elixir-string elixir-keyword elixir-data-type)
+                  (elixir-sigil elixir-builtin elixir-string-escape)
+                  (elixir-function-call elixir-variable
+                   elixir-operator elixir-number)))
+    (treesit-font-lock-recompute-features)))
+
+(add-hook 'heex-ts-mode-hook #'+heex-ts-inject-elixir-h)
+
+(defun +heex-add-delimiter-fontlock-h ()
+  "Highlight heex directive delimiters (<%, <%=, <%%, <%%=, %>) as keywords.
+Stock `heex-ts-mode' leaves these tokens unfontified."
+  (when (treesit-ready-p 'heex)
+    (setq-local treesit-font-lock-settings
+                (append treesit-font-lock-settings
+                        (treesit-font-lock-rules
+                         :language 'heex
+                         :feature 'heex-delimiter
+                         '(["<%" "<%=" "<%%" "<%%=" "%>"]
+                           @font-lock-keyword-face))))
+    ;; Add the new feature to level 1 (always-on under the default
+    ;; `treesit-font-lock-level' of 3).
+    (setq-local treesit-font-lock-feature-list
+                (cons (append (car treesit-font-lock-feature-list)
+                              '(heex-delimiter))
+                      (cdr treesit-font-lock-feature-list)))
+    (treesit-font-lock-recompute-features)))
+
+;; Use 'append so this runs AFTER `+heex-ts-inject-elixir-h', which rewrites
+;; `treesit-font-lock-feature-list' wholesale.
+(add-hook 'elixir-ts-mode-hook #'+heex-add-delimiter-fontlock-h 'append)
+(add-hook 'heex-ts-mode-hook   #'+heex-add-delimiter-fontlock-h 'append)
+
+
 ;; -- eat
 (after! eat
   (evil-set-initial-state 'eat-mode 'emacs)
