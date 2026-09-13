@@ -118,12 +118,12 @@
 (setq scroll-margin 3)  ; Number of lines to keep above/below cursor
 
 
-;   ;; -- eglot
-;   (set-eglot-client! '(elixir-mode elixir-ts-mode heex-ts-mode)
-;                      ;; `(,(expand-file-name "~/bin/elixir-ls")))
-;                      `(,(expand-file-name "~/.local/bin/expert") "--stdio")
-;                      )
-;
+;; -- eglot
+(set-eglot-client! '(elixir-mode elixir-ts-mode heex-ts-mode)
+                   ;; `(,(expand-file-name "~/bin/elixir-ls")))
+                   `(,(expand-file-name "/opt/homebrew/bin//expert") "--stdio")
+                   )
+
 ;
 ;   ;; -- HEEx: full elixir highlighting inside `{...}`, `<%= ... %>`, etc.
 ;   ;;
