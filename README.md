@@ -7,16 +7,15 @@ Yes, that.
 At least, some of them:
 
 ```
-brew install shellcheck direnv cmake
+brew install shellcheck direnv cmake expert
 
 brew tap d12frosted/emacs-plus
 
-# Edit to remove the with-native-comp build flag
-brew edit emacs-plus@30
+brew trust d12frosted/emacs-plus
 
-brew install emacs-plus@30 --with-c9rgreen-sonoma-icon
+brew install --cask emacs-plus-app
+
+defaults write org.gnu.Emacs NSEventConcurrentProcessingEnabled -bool NO
+defaults write org.gnu.Emacs NSApplicationUpdateCycleEnabled -bool NO
 ```
 
-Set up elixir-ls:
-- Get from [https://github.com/elixir-lsp/elixir-ls]
-- Symlink the executable to `~/bin/elixir-ls`
