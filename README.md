@@ -19,3 +19,12 @@ defaults write org.gnu.Emacs NSEventConcurrentProcessingEnabled -bool NO
 defaults write org.gnu.Emacs NSApplicationUpdateCycleEnabled -bool NO
 ```
 
+
+For the emacs-plus icon:
+
+``` yaml
+# In ~/.config/emacs-plus/build.yml
+
+icon: liquid-glass
+```
+
