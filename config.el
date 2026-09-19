@@ -22,8 +22,8 @@
 ;; accept. For example:
 ;;
 
-(setq doom-font (font-spec :family "Monaspace Xenon" :size 14 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "Monaspace Xenon" :size 13 :weight 'semi-light))
+(setq doom-font (font-spec :family "Monaspace Xenon" :size 14 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "Monaspace Xenon" :size 13 :weight 'regular))
 
 
 ;;
