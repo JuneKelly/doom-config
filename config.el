@@ -90,6 +90,10 @@
 
 ;; ----------------------- my config ------------------------------------------
 
+;; -- keys
+(map! :leader :desc "Toggle auto-fill-mode" :n "t a" #'auto-fill-mode)
+
+
 ;; -- shells
 (setq shell-file-name (executable-find
                        "bash"))
